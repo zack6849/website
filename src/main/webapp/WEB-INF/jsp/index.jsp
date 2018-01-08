@@ -17,9 +17,9 @@
         </div>
     </div>
 </div>
-<div class="container-fluid" style="background-image: url('//c1.staticflickr.com/2/1487/24940101593_36aae30400_k.jpg'); padding-top: 2em;">
+<div class="container-fluid" style="background-image: url('//c1.staticflickr.com/2/1487/24940101593_36aae30400_k.jpg'); padding-top: 2em; padding-bottom: 2em;  ">
     <div class="container">
-        <h2 style="color: whitesmoke">My Photos</h2>
+        <h2 style="color: whitesmoke">My Photos<sup><small><i class="fas fa-images"></i></small></sup></h2>
         <div class="row">
             <div class="col-4">
                 <img  class="img-thumbnail" src="//c1.staticflickr.com/5/4601/24573472887_35570efd85_k.jpg">
@@ -30,6 +30,13 @@
             <div class="col-4">
                 <img  class="img-thumbnail" src="//c1.staticflickr.com/5/4556/24041729157_1a0352d35d_k.jpg">
             </div>
+        </div>
+    </div>
+</div>
+<div class="container-fluid" style="background-color: white; padding-top: 2em;">
+    <div class="container">
+        <h2>My Projects<sup><small><i class="fas fa-hammer"></i></small></sup></h2>
+        <div class="row">
         </div>
     </div>
 </div>
