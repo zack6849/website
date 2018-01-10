@@ -48,10 +48,10 @@
                     <div class="card">
                         <div class="card-body">
                             <h5 class="card-title">AlphabotV2</h5>
-                            <p class="card-text">A Highly extensible IRC bot with a node-based permissions system, meant for basic </p>
+                            <p class="card-text">A Highly extensible IRC bot with a node-based permissions system, meant for basic channel administration and utilities. </p>
                         </div>
                         <div class="card-footer text-muted">
-                            <a href="#" class="card-link align-bottom">GitHub Link</a>
+                            <a href="https://github.com/zack6849/AlphabotV2" title="Github" target="_blank" rel="noopener" class="card-link align-bottom"><i class="fab fa-github"></i></a>
                         </div>
                     </div>
                 </div>
@@ -61,11 +61,11 @@
                         <div class="card-body">
                             <h5 class="card-title">ShipStation PHP Wrapper</h5>
                             <p class="card-text">A maintained fork of <a href="https://github.com/michaelbonds/ship-station">https://github.com/michaelbonds/ship-station</a><br>
-                            Designed to programmatically access the ShipStation REST API via PHP with Guzzle.
-                            </p>
+                                Designed to programmatically access the ShipStation REST API via PHP with Guzzle</p>
                         </div>
                         <div class="card-footer text-muted">
-                            <a href="#" class="card-link align-bottom">GitHub Link</a>
+                            <a href="https://github.com/zack6849/ship-station" title="GitHub" target="_blank" rel="noopener" class="align-bottom"><i class="fab fa-github"></i></a>
+                            <a href="https://packagist.org/packages/zack6849/ship-station" title="Packagist" target="_blank" rel="noopener" class="align-bottom"><i class="fas fa-archive"></i></a>
                         </div>
                     </div>
                 </div>
@@ -76,7 +76,7 @@
                             <p class="card-text">A Highly configurable logging system for the Bukkit API, largely unnecessary now that log4j is bundled with spigot and bukkit, but it was pretty useful back in the day :)</p>
                         </div>
                         <div class="card-footer text-muted">
-                            <a href="#" class="card-link align-bottom">GitHub Link</a>
+                            <a href="https://github.com/zack6849/SuperLogger" title="GitHub" target="_blank" rel="noopener" class="card-link align-bottom"><i class="fab fa-github"></i> </a>
                         </div>
                     </div>
                 </div>

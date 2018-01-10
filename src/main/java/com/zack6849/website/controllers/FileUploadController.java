@@ -11,6 +11,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+import org.springframework.web.servlet.view.RedirectView;
 
 import java.nio.file.Path;
 
@@ -29,6 +30,13 @@ public class FileUploadController {
         return "upload/index";
     }
 
+    @PostMapping("/upload")
+    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
+        Path result = storageService.store(file);
+        redirectAttributes.addFlashAttribute("message", "You uploaded" + file.getOriginalFilename());
+        return "redirect:uploads/" + result.getFileName();
+    }
+
     @GetMapping("/uploads/{filename:.+}")
     @ResponseBody
     public ResponseEntity<?>  serveFile(@PathVariable String filename){
@@ -36,16 +44,10 @@ public class FileUploadController {
         return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + filename + "\"").body(file);
     }
 
-    @PostMapping("/upload")
-    public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
-        Path result = storageService.store(file);
-        redirectAttributes.addFlashAttribute("message", "Your uploaded" + file.getOriginalFilename());
-        return "redirect:uploads/" + result.getFileName();
-    }
-
     @ExceptionHandler(StorageException.class)
-    public ResponseEntity<?> handleException(StorageException ex){
-        return ResponseEntity.badRequest().body("This doesn't work :(");
+    public String handleException(StorageException ex, Model model){
+        model.addAttribute("exception", ex);
+        return "error.jsp";
     }
 
 }

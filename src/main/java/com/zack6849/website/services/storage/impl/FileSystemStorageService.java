@@ -24,10 +24,12 @@ import java.util.stream.Stream;
 public class FileSystemStorageService implements StorageService{
 
     private final Path rootLocation;
+    private final StorageProperties properties;
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties){
         this.rootLocation = Paths.get(properties.getLocation());
+        this.properties = properties;
     }
 
     private Path getRootLocation(){
@@ -39,10 +41,14 @@ public class FileSystemStorageService implements StorageService{
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try{
             if(file.isEmpty()){
-                throw new StorageException("Failed to upload file: file empty");
+                throw new StorageException("Upload Failed: file empty");
             }
             if(filename.contains("..")){
-                throw new StorageException("Cannot store file with relative path");
+                throw new StorageException("Upload Failed: Cannot store file with relative path");
+            }
+            String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            if(this.properties.getExtensionBlacklist().contains(extension)){
+                throw new StorageException("Upload Failed: Filetype not allowed!");
             }
             //keep generating a random filename until there's one that's unique.
             while (this.rootLocation.resolve(filename).toFile().exists()){
@@ -50,14 +56,13 @@ public class FileSystemStorageService implements StorageService{
                         .withinRange('0', 'z')
                         .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
                         .build().generate(20);
-                String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
                 filename = filename + "." + extension;
             }
             Path destination = this.rootLocation.resolve(filename);
             Files.copy(file.getInputStream(), destination);
             return destination;
         }catch (IOException ex){
-            throw new StorageException("Failed to store file: " + file, ex);
+            throw new StorageException("Upload Failed: Failed to store file: " + file, ex);
         }
     }
 

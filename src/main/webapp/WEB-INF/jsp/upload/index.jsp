@@ -1,10 +1,13 @@
 <%@include file="../templates/header.jsp" %>
-<div class="container-fluid">
+<div class="container-fluid" style="margin-top: 2em">
     <div class="container">
-        <h1>Upload File</h1>
+        <h1>Upload File <i class="fas fa-file"></i></h1>
         <form action="/upload" method="post" enctype="multipart/form-data">
-            <input type="file" name="file">
-            <input type="submit">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Select a file for upload</label>
+                <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <button type="submit" class="btn btn-primary">Submit</button>
         </form>
     </div>
 </div>
