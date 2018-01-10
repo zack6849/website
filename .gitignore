@@ -27,3 +27,6 @@ nbdist/
 .mvn/
 mvnw
 mvnw.cmd
+
+##Site files
+media/
