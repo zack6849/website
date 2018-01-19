@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.nio.file.Files;
@@ -28,7 +29,7 @@ public class FileSystemStorageService implements StorageService{
 
     @Autowired
     public FileSystemStorageService(StorageProperties properties){
-        this.rootLocation = Paths.get(properties.getLocation());
+        this.rootLocation = Paths.get(properties.getUploadDestination());
         this.properties = properties;
     }
 
@@ -38,6 +39,16 @@ public class FileSystemStorageService implements StorageService{
 
     @Override
     public Path store(MultipartFile file) {
+        return store(file, getRootLocation());
+    }
+
+    @Override
+    public Path store(MultipartFile file, String path) {
+        return store(file, Paths.get(path));
+    }
+
+    @Override
+    public Path store(MultipartFile file, Path location) {
         String filename = StringUtils.cleanPath(file.getOriginalFilename());
         try{
             if(file.isEmpty()){
@@ -51,14 +62,14 @@ public class FileSystemStorageService implements StorageService{
                 throw new StorageException("Upload Failed: Filetype not allowed!");
             }
             //keep generating a random filename until there's one that's unique.
-            while (this.rootLocation.resolve(filename).toFile().exists()){
+            while (location.resolve(filename).toFile().exists()){
                 filename = new RandomStringGenerator.Builder()
                         .withinRange('0', 'z')
                         .filteredBy(CharacterPredicates.LETTERS, CharacterPredicates.DIGITS)
                         .build().generate(20);
                 filename = filename + "." + extension;
             }
-            Path destination = this.rootLocation.resolve(filename);
+            Path destination = location.resolve(filename);
             Files.copy(file.getInputStream(), destination);
             return destination;
         }catch (IOException ex){
@@ -69,8 +80,9 @@ public class FileSystemStorageService implements StorageService{
     @Override
     public void init() {
         try {
-            Logger.getLogger(this.getClass()).info("Registered FileSystem Storage Service for " + this.rootLocation.toFile().getAbsolutePath());
-            Files.createDirectories(this.rootLocation);
+            Logger.getLogger(this.getClass()).info("Registered FileSystem Storage Service for " + new File(this.getProperties().getMediapath()).getAbsolutePath());
+            Files.createDirectories(Paths.get(properties.getUploadDestination()));
+            Files.createDirectories(Paths.get(properties.getWallpaperDestination()));
         } catch (IOException e) {
             throw new StorageException("Failed to initialize storage provider", e);
         }
@@ -78,24 +90,53 @@ public class FileSystemStorageService implements StorageService{
 
     @Override
     public Stream<Path> loadAll() {
+        return loadAll(getRootLocation());
+    }
+
+    @Override
+    public Stream<Path> loadAll(String path) {
+        return null;
+    }
+
+    @Override
+    public Stream<Path> loadAll(Path location) {
         try {
-            return Files.walk(this.rootLocation, 1)
-                    .filter(path -> !path.equals(this.rootLocation))
-                    .map(this.rootLocation::relativize);
-        }
-        catch (IOException e) {
+            return Files.walk(location, 1)
+                    .filter(path -> !path.equals(location))
+                    .map(location::relativize);
+        } catch (IOException e) {
             throw new StorageException("Failed to read stored files", e);
         }
-
     }
+
     @Override
     public Path load(String filename) {
-        return this.rootLocation.resolve(filename);
+        return load(filename, getRootLocation());
+    }
+
+    @Override
+    public Path load(String filename, String path) {
+        return load(filename, Paths.get(path));
+    }
+
+    @Override
+    public Path load(String filename, Path path) {
+        return path.resolve(filename);
     }
 
     @Override
     public Resource loadAsResource(String filename){
-        Path file = load(filename);
+        return loadAsResource(filename, getRootLocation());
+    }
+
+    @Override
+    public Resource loadAsResource(String filename, String path){
+        return loadAsResource(filename, Paths.get(path));
+    }
+
+    @Override
+    public Resource loadAsResource(String filename, Path path) {
+        Path file = load(filename, path);
         try {
             Resource resource = new UrlResource(file.toUri());
             if(!resource.exists() || !resource.isReadable()){
@@ -105,5 +146,9 @@ public class FileSystemStorageService implements StorageService{
         } catch (MalformedURLException e) {
             throw new StorageException("Couldn't read file " + filename, e);
         }
+    }
+
+    public StorageProperties getProperties(){
+        return this.properties;
     }
 }

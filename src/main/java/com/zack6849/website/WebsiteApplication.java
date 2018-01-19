@@ -14,9 +14,11 @@ import java.util.logging.Logger;
 @SpringBootApplication
 @EnableConfigurationProperties(StorageProperties.class)
 public class WebsiteApplication {
+
 	public static void main(String[] args) {
 		SpringApplication.run(WebsiteApplication.class, args);
 	}
+
 	@Bean
 	CommandLineRunner init(StorageService storageService){
 		return (args -> {

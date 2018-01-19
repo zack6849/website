@@ -18,22 +18,19 @@ import java.nio.file.Path;
 
 @Controller
 public class FileUploadController {
-    private final StorageService storageService;
-
     @Autowired
-    public FileUploadController(StorageService storageService) {
-        this.storageService = storageService;
-    }
+    private StorageService storageService;
 
     @GetMapping("/upload")
     public String index(Model model){
+        model.addAttribute("type", "File");
+        model.addAttribute("endpoint", "upload");
         return "upload/index";
     }
 
     @PostMapping("/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
         Path result = storageService.store(file);
-        redirectAttributes.addFlashAttribute("message", "You uploaded" + file.getOriginalFilename());
         return "redirect:uploads/" + result.getFileName();
     }
 

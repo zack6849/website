@@ -1,8 +1,8 @@
 <%@include file="../templates/header.jsp" %>
 <div class="container-fluid" style="margin-top: 2em">
     <div class="container">
-        <h1>Upload File <i class="fas fa-file"></i></h1>
-        <form action="/upload" method="post" enctype="multipart/form-data">
+        <h1>Upload ${type}&nbsp;<i class="fas fa-file"></i></h1>
+        <form action="${endpoint}" method="post" enctype="multipart/form-data">
             <div class="form-group">
                 <label for="exampleFormControlFile1">Select a file for upload</label>
                 <input type="file" name="file" class="form-control-file" id="exampleFormControlFile1">
