@@ -1,4 +1,4 @@
-<%@include file="templates/header.jsp" %>
+<div th:replace="~{templates/header}"></div>
 <div class="jumbotron" style="margin-bottom: 0;">
     <div class="container">
         <div class="row">
@@ -84,4 +84,4 @@
         </div>
     </div>
 </div>
-<%@include file="templates/footer.jsp" %>
+<div th:replace="~{templates/footer}"></div>
