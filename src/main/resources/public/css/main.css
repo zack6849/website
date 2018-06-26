@@ -1,0 +1,42 @@
+.svg-inline--fa {
+    margin-right: 5px;
+}
+
+div#projectsContainer div.card{
+    height: 100% !important;
+}
+
+div#projectsContainer .col{
+    margin-bottom: 10px;
+}
+
+img.img-thumbnail {
+    margin-top: 1em;
+    margin-bottom: 1em;
+}
+
+/*#pagefooter {*/
+    /*position: absolute;*/
+    /*bottom: 0;*/
+/*}*/
+
+#navbarSupportedContent div.nav-item.dropdown a:not(.dropdown-item) {
+    color: whitesmoke !important;
+}
+
+html{
+    position: relative;
+    min-height: 100%;
+}
+
+#pageContent {
+    margin-top: 56px;
+    margin-bottom: 88px;
+}
+
+#pagefooter{
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    height: 88px;
+}
