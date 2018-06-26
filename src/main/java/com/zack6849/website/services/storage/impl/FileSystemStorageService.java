@@ -81,6 +81,7 @@ public class FileSystemStorageService implements StorageService{
     public void init() {
         try {
             Logger.getLogger(this.getClass()).info("Registered FileSystem Storage Service for " + new File(this.getProperties().getMediapath()).getAbsolutePath());
+            Logger.getLogger(this.getClass()).info("Blacklist: " + String.join(", ", this.getProperties().getExtensionBlacklist()));
             Files.createDirectories(Paths.get(properties.getUploadDestination()));
             Files.createDirectories(Paths.get(properties.getWallpaperDestination()));
         } catch (IOException e) {

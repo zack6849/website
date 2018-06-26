@@ -7,7 +7,8 @@ import java.util.List;
 
 @ConfigurationProperties("storage")
 public class StorageProperties {
-    private List<String> extensionBlacklist = Arrays.asList("jsp jsf jspx jstl php".split(" "));
+    public String blacklist = "default";
+    private List<String> extensionBlacklist = Arrays.asList(blacklist.split(" "));
     private String mediapath = "media";
     private String uploadDestination = getMediapath() + "/uploads";
     private String wallpaperDestination = getMediapath() + "/wallpapers";
