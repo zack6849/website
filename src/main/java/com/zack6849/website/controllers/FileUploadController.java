@@ -30,10 +30,10 @@ public class FileUploadController {
         return "upload/index";
     }
 
-    @PostMapping("/upload")
+    @PostMapping("/upload/upload")
     public String handleFileUpload(@RequestParam("file") MultipartFile file, RedirectAttributes redirectAttributes){
         Path result = storageService.store(file);
-        return "redirect:uploads/" + result.getFileName();
+        return "redirect:/uploads/" + result.getFileName();
     }
 
     @GetMapping("/uploads/{filename:.+}")
