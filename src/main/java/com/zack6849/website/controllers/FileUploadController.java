@@ -40,8 +40,16 @@ public class FileUploadController {
     @ResponseBody
     public ResponseEntity<?>  serveFile(@PathVariable String filename) throws IOException {
         Resource file = storageService.loadAsResource(filename);
+        String disposition = String.format("filename=\"%s\"", filename);
         String type = URLConnection.guessContentTypeFromStream(file.getInputStream());
-        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, "filename=\"" + filename + "\"").contentType(MediaType.parseMediaType(type)).body(file);
+        if(type == null){
+            type = URLConnection.guessContentTypeFromStream(file.getInputStream());
+            if(type == null){
+                type = "application/octet-stream";
+                disposition = String.format("attachment; filename=\"%s\"", filename);
+            }
+        }
+        return ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION, disposition).contentType(MediaType.parseMediaType(type)).body(file);
     }
 
     @ExceptionHandler(StorageException.class)
