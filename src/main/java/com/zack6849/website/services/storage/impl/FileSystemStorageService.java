@@ -58,7 +58,9 @@ public class FileSystemStorageService implements StorageService{
                 throw new StorageException("Upload Failed: Cannot store file with relative path");
             }
             String extension = StringUtils.getFilenameExtension(file.getOriginalFilename());
+            Logger.getLogger(this.getClass()).info(String.format("Checking file %s extension: %s for blacklist!", filename, extension));
             if(this.properties.getExtensionBlacklist().contains(extension)){
+                Logger.getLogger(this.getClass()).info(String.format("Blocked file %s because it was of extension %s that's on blacklist!", filename, extension));
                 throw new StorageException("Upload Failed: Filetype not allowed!");
             }
             //keep generating a random filename until there's one that's unique.
@@ -141,7 +143,7 @@ public class FileSystemStorageService implements StorageService{
         try {
             Resource resource = new UrlResource(file.toUri());
             if(!resource.exists() || !resource.isReadable()){
-                throw new StorageException("Couldn't read file " + file);
+                throw new StorageException("Couldn't read file " + path.getFileName()+ "/"+ filename);
             }
             return resource;
         } catch (MalformedURLException e) {
