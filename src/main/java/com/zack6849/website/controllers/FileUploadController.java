@@ -12,7 +12,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import java.io.IOException;
 import java.net.URLConnection;
@@ -27,6 +26,7 @@ public class FileUploadController {
     @GetMapping("/upload")
     public String index(Model model){
         model.addAttribute("type", "File");
+        model.addAttribute("pageTitle", "Upload a file");
         model.addAttribute("endpoint", "upload");
         return "upload/index";
     }

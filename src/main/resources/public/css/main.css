@@ -15,11 +15,6 @@ img.img-thumbnail {
     margin-bottom: 1em;
 }
 
-/*#pagefooter {*/
-/*position: absolute;*/
-/*bottom: 0;*/
-/*}*/
-
 #navbarSupportedContent div.nav-item.dropdown a:not(.dropdown-item) {
     color: whitesmoke !important;
 }
