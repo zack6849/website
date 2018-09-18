@@ -1,0 +1,19 @@
+$footer_height: 75px;
+
+#content{
+  margin-top: 56px;
+  margin-bottom: $footer_height;
+}
+
+#footer{
+  position: absolute;
+  bottom: 0;
+  width: 100%;
+  height: $footer_height;
+}
+
+/* Required to push footer to bottom of page regardless of page size */
+html{
+  position: relative;
+  min-height: 100%;
+}
