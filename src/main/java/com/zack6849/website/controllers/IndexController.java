@@ -21,7 +21,7 @@ public class IndexController {
         SimpleDateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
         int age= this.getDiffYears(dateFormat.parse("24-07-1997"), new Date());
         model.addAttribute("age", age);
-        model.addAttribute("pageTitle","Index - zack6849");
+        model.addAttribute("pageTitle","Index - Zachary Craig");
         model.addAttribute("showFooter", true);
         return "index";
     }
