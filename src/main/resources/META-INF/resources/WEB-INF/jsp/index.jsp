@@ -23,13 +23,13 @@
             <h2 style="color: whitesmoke">My Photos<sup><small><i class="fas fa-images"></i></small></sup></h2>
             <div class="row">
                 <div class="col col-sm-12 col-md-4">
-                    <img  class="img-thumbnail" src="http://c1.staticflickr.com/5/4601/24573472887_35570efd85_k.jpg">
+                    <img  class="img-thumbnail" src="//c1.staticflickr.com/5/4601/24573472887_35570efd85_k.jpg">
                 </div>
                 <div class="col col-sm-12 col-md-4">
-                    <img  class="img-thumbnail" src="http://c1.staticflickr.com/5/4540/24041726457_90a44d8ede_k.jpg">
+                    <img  class="img-thumbnail" src="//c1.staticflickr.com/5/4540/24041726457_90a44d8ede_k.jpg">
                 </div>
                 <div class="col col-sm-12 col-md-4">
-                    <img  class="img-thumbnail" src="http://c1.staticflickr.com/5/4556/24041729157_1a0352d35d_k.jpg">
+                    <img  class="img-thumbnail" src="//c1.staticflickr.com/5/4556/24041729157_1a0352d35d_k.jpg">
                 </div>
             </div>
             <div class="d-flex justify-content-end">
