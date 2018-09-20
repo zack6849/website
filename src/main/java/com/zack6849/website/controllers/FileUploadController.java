@@ -42,7 +42,6 @@ public class FileUploadController {
     @GetMapping("/uploads/{filename:.+}")
     @ResponseBody
     public ResponseEntity<?>  serveFile(@PathVariable String filename) throws IOException {
-        Logger.getLogger(this.getClass()).info(String.format("Serving file %s", filename));
         Resource file = storageService.loadAsResource(filename);
         String disposition = String.format("filename=\"%s\"", filename);
         String type = URLConnection.guessContentTypeFromStream(file.getInputStream());
