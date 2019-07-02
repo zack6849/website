@@ -11,6 +11,22 @@
 |
 */
 
+use \Illuminate\Support\Facades\Route;
+use Illuminate\Support\Facades\Auth;
+
 Route::get('/', function () {
     return view('index');
 });
+
+Route::get('/upload', function(){
+    return view('upload');
+});
+
+Route::post('/upload', [
+    'as' => 'file.upload',
+    'uses' => 'UploadController@upload'
+]);
+
+Auth::routes(['register' => false]);
+
+Route::get('/home', 'HomeController@index')->name('home');

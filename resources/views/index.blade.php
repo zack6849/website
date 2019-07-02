@@ -11,7 +11,7 @@
         <div class="container">
             <div class="row">
                 <div class="col-3 d-none d-lg-block d-xl-block">
-                    <img src="img/profile.jpg" class="rounded-circle">
+                    <img src="{{asset('img/profile.jpg')}}" class="rounded-circle">
                 </div>
                 <div class="col-9">
                     <h1 class="display-3">Hello There.</h1>

@@ -14737,19 +14737,7 @@ html {
   padding: 0;
 }
 
-div#projectsContainer div.card {
-  height: 100% !important;
-}
-
-div#projectsContainer .col {
-  margin-bottom: 10px;
-}
-
-.jumbotron {
-  margin-bottom: 0;
-}
-
-.jumbotron img.rounded-circle {
-  max-height: 200px;
+div#content div.container {
+  padding: 4rem;
 }
 
