@@ -7,11 +7,11 @@ namespace App\Services;
 use App\Services\Backgrounds\BackgroundNormalizer;
 use App\Services\Backgrounds\BackgroundSelector;
 
-class HomeBackgroundService
+readonly class HomeBackgroundService
 {
     public function __construct(
-        private readonly BackgroundSelector $selector,
-        private readonly BackgroundNormalizer $normalizer,
+        private BackgroundSelector   $selector,
+        private BackgroundNormalizer $normalizer,
     ) {
     }
 

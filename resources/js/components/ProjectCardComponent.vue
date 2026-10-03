@@ -115,6 +115,7 @@ export default {
         },
         iconToneClasses() {
             const classesByTone = {
+                go: 'text-sky-400',
                 radio: 'text-emerald-600',
                 prize: 'text-purple-600',
                 infrastructure: 'text-sky-600',

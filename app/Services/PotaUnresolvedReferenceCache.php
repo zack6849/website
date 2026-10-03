@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Cache;
  */
 class PotaUnresolvedReferenceCache
 {
-    private const KEY_PREFIX = 'pota:unresolved:';
-    private const TTL_DAYS = 30;
+    private const string KEY_PREFIX = 'pota:unresolved:';
+    private const int TTL_DAYS = 30;
 
     public function has(string $reference): bool
     {

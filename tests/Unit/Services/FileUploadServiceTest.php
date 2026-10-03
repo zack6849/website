@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Services;
 
 use App\Exceptions\FileCannotBeDeletedException;
-use App\Jobs\PurgeCDNCacheJob;
+use App\Jobs\Files\PurgeCDNCacheJob;
 use App\Models\File;
 use App\Models\User;
 use App\Services\FileUploadService;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\Unit\Jobs;
 
 use App\Exceptions\CachePurgeFailureException;
-use App\Jobs\PurgeCDNCacheJob;
+use App\Jobs\Files\PurgeCDNCacheJob;
 use App\Services\CDNService;
 use Illuminate\Foundation\Testing\WithFaker;
 use Illuminate\Support\Str;

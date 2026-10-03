@@ -4,6 +4,21 @@ return [
     'categories' => [
         'personal' => [
             [
+                'name' => 'GoBNB',
+                'description' => 'A toy project that imports and displays data from insideairbnb',
+                'tech' => ['Go', 'Gin', 'GORM', 'PostgreSQL', 'PostGIS'],
+                'status' => 'WIP',
+                'tone' => 'go',
+                'icon' => [
+                    'fa-solid fa-circle fa-stack-2x',
+                    'fa-solid fa-person-walking-luggage fa-stack-1x fa-flip-horizontal fa-inverse'
+                ],
+                'featured' => true,
+                'links' => [
+                    ['url' => 'https://github.com/zack6849/go-bnb', 'label' => 'View Code', 'icon' => 'fab fa-github']
+                ]
+            ],
+            [
                 'name' => 'Amateur Radio Logbook Map',
                 'description' => 'Part of zcraig.me. A queued Laravel job imports my QRZ logbook, parses ADIF records, enriches Parks on the Air contacts, and serves GeoJSON to a Vue and MapLibre map with band and mode filters.',
                 'tech' => ['Laravel', 'PHP', 'Vue.js', 'MapLibre', 'QRZ API', 'Queues', 'PHPUnit'],

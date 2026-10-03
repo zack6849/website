@@ -13,8 +13,8 @@ use Illuminate\Support\Facades\Cache;
  */
 class LogbookCache
 {
-    private const ENTRIES_KEY = 'logbook';
-    private const LAST_IMPORTED_AT_KEY = 'logbook:last_imported_at';
+    private const string ENTRIES_KEY = 'logbook';
+    private const string LAST_IMPORTED_AT_KEY = 'logbook:last_imported_at';
 
     /**
      * Cache fetched logbook records for slightly under a day, so a same-time

@@ -31,7 +31,7 @@ class LogbookEntryResource extends JsonResource
      * @param Request $request
      * @return array
      */
-    public function toArray($request)
+    public function toArray($request): array
     {
         $qsoTimestamp = $this->qsoTimestamp();
         $ageDays = $this->scoring->ageDays($qsoTimestamp);

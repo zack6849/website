@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Jobs\QRZLogbookImport;
+use App\Jobs\Logbook\QRZLogbookImport;
 use App\Livewire\Admin\LogbookIndex;
 use App\Models\Callsign;
 use App\Models\LogbookEntry;

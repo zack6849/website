@@ -11,22 +11,22 @@ declare(strict_types=1);
 | is assigned the "api" middleware group. Enjoy building your API!
 |
 */
-Route::middleware("auth:api")->group(function () {
-    Route::prefix("/files")->group(function () {
-        Route::post('/', 'FileController@store')->name("api.file.store");
-        Route::delete('/{file:filename}', 'FileController@destroy')->name("api.file.delete");
-    });
-    Route::prefix('/twilio')->group(function () {
-        Route::post('/lookup', 'TwilioController@twilioResponse')->name('twilio.sms');
-    });
 
-    Route::prefix('/radio')->group(function () {
-        Route::post('spots', 'HamAlertSpotsController@save');
+use App\Http\Controllers\Files\FileController;
+use App\Http\Controllers\Logbook\LogbookController;
+use App\Http\Controllers\TwilioLookup\TwilioController;
+
+Route::middleware("auth:sanctum")->group(callback: function () {
+    Route::prefix("/files")->controller(FileController::class)->group(function () {
+        Route::post('/', 'store')->name("api.file.store");
+        Route::delete('/{file:filename}', 'destroy')->name("api.file.delete");
+    });
+    Route::prefix('/twilio')->controller(TwilioController::class)->group(function () {
+        Route::post('/lookup', 'twilioResponse')->name('twilio.sms');
     });
 });
-Route::prefix('radio')->group(function(){
-    Route::get('qsos/band/{band?}/mode/{mode?}', 'LogbookController@getGeoJSON');
-    Route::get('modes', 'LogbookController@getWorkedModes');
-    Route::get('bands', 'LogbookController@getWorkedBands');
-    Route::get('spots', 'HamAlertSpotsController@index');
+Route::prefix('radio')->controller(LogbookController::class)->group(function(){
+    Route::get('qsos/band/{band?}/mode/{mode?}', 'getGeoJSON');
+    Route::get('modes', 'getWorkedModes');
+    Route::get('bands', 'getWorkedBands');
 });

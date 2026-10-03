@@ -13,6 +13,7 @@ use Illuminate\Notifications\DatabaseNotification;
 use Illuminate\Notifications\DatabaseNotificationCollection;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Carbon;
+use Laravel\Sanctum\HasApiTokens;
 
 /**
  * App\User
@@ -55,6 +56,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     use HasFactory;
+    use HasApiTokens;
 
     /**
      * The attributes that are mass assignable.

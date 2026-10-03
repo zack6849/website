@@ -9,11 +9,11 @@ use Illuminate\Support\Str;
 
 class BackgroundNormalizer
 {
-    public const DEFAULT_IMAGE = 'img/bg/pier_night.jpg';
-    public const DEFAULT_OVERLAY = 0.68;
-    public const DEFAULT_SIZE = 'cover';
+    public const string DEFAULT_IMAGE = 'img/bg/pier_night.jpg';
+    public const float DEFAULT_OVERLAY = 0.68;
+    public const string DEFAULT_SIZE = 'cover';
 
-    private const RESPONSIVE_VARIANT_KEYS = ['base', 'sm', 'lg'];
+    private const array RESPONSIVE_VARIANT_KEYS = ['base', 'sm', 'lg'];
 
     public function normalize(array $background, array $defaults, string $key): array
     {

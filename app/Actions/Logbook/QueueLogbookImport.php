@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Actions\Logbook;
 
-use App\Jobs\QRZLogbookImport;
+use App\Jobs\Logbook\QRZLogbookImport;
 use App\Services\Logbook\LogbookCache;
 
 class QueueLogbookImport

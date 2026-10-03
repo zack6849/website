@@ -13,10 +13,10 @@ use Illuminate\Support\Collection;
 
 class LogbookGeoJsonService
 {
-    public const DEFAULT_LIMIT = 200;
-    public const DEFAULT_SORT = 'newest';
-    private const MAX_LIMIT = 500;
-    private const SORTS = [
+    public const int DEFAULT_LIMIT = 200;
+    public const string DEFAULT_SORT = 'newest';
+    private const int MAX_LIMIT = 500;
+    private const array SORTS = [
         'newest',
         'oldest',
         'distance_desc',
@@ -161,7 +161,7 @@ class LogbookGeoJsonService
 
     public function getWorkedModes(): Collection
     {
-        return LogbookEntry::select('mode')
+        return LogbookEntry::query()->select('mode')
             ->distinct()
             ->orderBy('mode')
             ->get()
@@ -170,7 +170,7 @@ class LogbookGeoJsonService
 
     public function getWorkedBands(): Collection
     {
-        return LogbookEntry::select('band')
+        return LogbookEntry::query()->select('band')
             ->distinct()
             ->orderBy('band')
             ->get()

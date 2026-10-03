@@ -8,8 +8,8 @@ use Illuminate\Support\Carbon;
 
 class LogbookScoringService
 {
-    private const RECENCY_DECAY_DAYS = 365;
-    private const MIN_RECENCY_SCORE = 0.18;
+    private const int RECENCY_DECAY_DAYS = 365;
+    private const float MIN_RECENCY_SCORE = 0.18;
 
     public function recencyScore(?int $ageDays): float
     {

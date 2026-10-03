@@ -29,7 +29,7 @@ class QRZLogbookImport extends Command
     public function handle()
     {
         $this->info("Syncing logbook from QRZ.com");
-        dispatch_sync(resolve(\App\Jobs\QRZLogbookImport::class));
+        dispatch_sync(resolve(\App\Jobs\Logbook\QRZLogbookImport::class));
         $this->info("Sync complete");
         return CommandAlias::SUCCESS;
     }
