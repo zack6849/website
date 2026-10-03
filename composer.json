@@ -17,12 +17,13 @@
         }
     ],
     "require": {
-        "php": "^8.2",
+        "php": "^8.4",
         "ext-bcmath": "*",
         "ext-curl": "*",
         "ext-intl": "*",
         "ext-json": "*",
         "ext-mbstring": "*",
+        "ext-pdo": "*",
         "ext-tokenizer": "*",
         "ext-xml": "*",
         "ext-zip": "*",
