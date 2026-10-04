@@ -23,7 +23,15 @@ class FileUploadService
         public CDNService $cdnService
     )
     {
-        $this->disk = Storage::disk(config('upload.storage.disk'));
+
+    }
+
+    private function getDisk(): Filesystem
+    {
+        if(!isset($this->disk)){
+            $this->disk = Storage::disk(config('upload.storage.disk'));
+        }
+        return $this->disk;
     }
 
     public function getFilename(UploadedFile $file): string
@@ -44,7 +52,7 @@ class FileUploadService
     {
         $storagePath = config('upload.storage.path');
         $name = $this->getFilename($file);
-        $path = $this->disk->putFileAs($storagePath, $file, $name, [
+        $path = $this->getDisk()->putFileAs($storagePath, $file, $name, [
             'visibility' => 'public'
         ]);
         $uploadedFile = new File([
@@ -72,7 +80,7 @@ class FileUploadService
      */
     public function delete(File $file): void
     {
-        $result = $this->disk->delete($file->file_location);
+        $result = $this->getDisk()->delete($file->file_location);
         if (!$result) {
             throw new FileCannotBeDeletedException("Failed to delete the file from disk");
         }
