@@ -49,7 +49,7 @@ monitoring, restricted to admins.
 
 ## Tech stack
 
-- **Backend:** Laravel 12, PHP 8.4, MySQL 8, Redis
+- **Backend:** Laravel 13, PHP 8.4, MySQL 8, Redis
 - **Frontend:** Blade + Tailwind CSS v4 + Vite, with Vue 3 "islands" for
   interactive pieces (the map, photo gallery, homepage showcase) and
   Livewire 3 for the admin panel
@@ -86,4 +86,27 @@ projects on the same machine).
 ./vendor/bin/sail npm run dev     # Vite dev server with HMR
 ```
 
-See `CLAUDE.md` for more detailed architecture notes and conventions.
+## Application configuration
+
+The app uses Laravel's modern application structure:
+
+- `bootstrap/app.php` configures routing, middleware, and Sentry exception
+  reporting. Laravel supplies the standard middleware, including Laravel 13's
+  origin-aware request-forgery protection with CSRF-token fallback.
+- `bootstrap/providers.php` registers application providers. `AppServiceProvider`
+  owns policies, gates, production HTTPS URL generation, and production-only
+  Sentry provider registration.
+- `routes/console.php` defines console routes and the daily `logbook:import`
+  schedule. The server still needs to run Laravel's scheduler.
+- `config/trustedproxy.php` retains the optional `TRUSTED_PROXIES` environment
+  setting using Laravel's built-in proxy middleware. Leave it unset for direct
+  Nginx/PHP-FPM hosting; only configure verified upstream proxy addresses or
+  CIDRs, not `*`.
+
+For the first deployment of this structure, run `php artisan config:clear` on
+the old release before replacing its files: an old configuration cache can
+still reference the removed providers. After deployment, run
+`php artisan optimize` to rebuild configuration, route, event, and view caches,
+and `php artisan queue:restart` to reload long-running queue workers. Use the
+site's PHP version. Legacy application kernels, exception handler, and
+routing/auth/event providers have been removed.

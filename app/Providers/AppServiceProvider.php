@@ -1,11 +1,16 @@
 <?php
 
+declare(strict_types=1);
+
 namespace App\Providers;
 
 use App\Http\Middleware\EnsureUserIsAdmin;
+use App\Models\File;
 use App\Models\User;
+use App\Policies\FilePolicy;
 use Illuminate\Support\Facades\App;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
 use Laravel\Pulse\Facades\Pulse;
 use Livewire\Livewire;
@@ -37,6 +42,12 @@ class AppServiceProvider extends ServiceProvider
      */
     public function boot(): void
     {
+        if ($this->app->environment('production')) {
+            URL::forceScheme('https');
+        }
+
+        Gate::policy(File::class, FilePolicy::class);
+
         Livewire::addPersistentMiddleware(EnsureUserIsAdmin::class);
 
         $this->app->bind(Client::class, function () {

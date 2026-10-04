@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Feature;
 
-use App\Http\Middleware\TrustProxies;
+use Illuminate\Http\Middleware\TrustProxies;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use PHPUnit\Framework\Attributes\DataProvider;
@@ -18,7 +18,7 @@ class TrustProxiesTest extends TestCase
         parent::setUp();
 
         TrustProxies::flushState();
-        config(['app.trusted_proxies' => null]);
+        config(['trustedproxy.proxies' => null]);
 
         Route::get('/_test/client-ip', fn (Request $request) => [
             'ip' => $request->ip(),
@@ -46,7 +46,7 @@ class TrustProxiesTest extends TestCase
         ?string $forwardedFor,
         string $expectedIp,
     ): void {
-        config(['app.trusted_proxies' => $proxies]);
+        config(['trustedproxy.proxies' => $proxies]);
 
         $server = ['REMOTE_ADDR' => $remoteAddress];
 
@@ -94,5 +94,31 @@ class TrustProxiesTest extends TestCase
                 '10.0.0.10', '10.0.0.10', '203.0.113.25, 198.51.100.20', '198.51.100.20',
             ],
         ];
+    }
+
+    #[Test]
+    public function ignoresSpoofedForwardedHostAndSchemeWithoutTrustedProxies(): void
+    {
+        Route::get('/_test/request-origin', fn (Request $request) => [
+            'ip' => $request->ip(),
+            'host' => $request->getHost(),
+            'scheme' => $request->getScheme(),
+        ]);
+
+        $this->withServerVariables([
+            'REMOTE_ADDR' => '198.51.100.20',
+            'HTTP_HOST' => 'zcraig.me',
+            'HTTPS' => 'on',
+            'SERVER_PORT' => 443,
+            'HTTP_X_FORWARDED_FOR' => '203.0.113.25',
+            'HTTP_X_FORWARDED_HOST' => 'attacker.invalid',
+            'HTTP_X_FORWARDED_PROTO' => 'http',
+        ])->getJson('https://zcraig.me/_test/request-origin')
+            ->assertOk()
+            ->assertExactJson([
+                'ip' => '198.51.100.20',
+                'host' => 'zcraig.me',
+                'scheme' => 'https',
+            ]);
     }
 }
