@@ -3,10 +3,11 @@
     "private": true,
     "scripts": {
         "dev": "vite",
+        "test:qso-map": "node --test tests/js/qso-map/*.test.mjs",
+        "test:frontend": "node --test tests/js/frontend/*.test.mjs",
         "build": "vite build"
     },
     "devDependencies": {
-        "@fortawesome/fontawesome-free": "^6.3.0",
         "@mdi/font": "^7.4.47",
         "axios": "1.20.0",
         "laravel-vite-plugin": "^1.2.0",
@@ -18,6 +19,9 @@
         "vue": "^3.2.47"
     },
     "dependencies": {
+        "@fortawesome/fontawesome-svg-core": "^6.7.2",
+        "@fortawesome/free-brands-svg-icons": "^6.7.2",
+        "@fortawesome/free-solid-svg-icons": "^6.7.2",
         "@popperjs/core": "^2.11.6",
         "@tailwindcss/postcss": "^4.3.3",
         "@tailwindcss/vite": "^4.3.3",

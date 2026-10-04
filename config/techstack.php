@@ -27,6 +27,7 @@ return [
             ['name' => 'TypeScript', 'tier' => 2],
             ['name' => 'Vuetify', 'tier' => 2],
             ['name' => 'jQuery', 'tier' => 3],
+            ['name' => 'React', 'tier' => 2]
         ],
         'Data & Messaging' => [
             ['name' => 'MySQL', 'image' => 'img/logos/mysql.svg', 'tier' => 1],

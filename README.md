@@ -1,33 +1,25 @@
-# zcraig.me
+# Porfolio (hosted at [zcraig.me](https://zcraig.me))
 
-My personal portfolio and hobby-tools site — a Laravel app that doubles as a
-place to point people at my work and a place to run a few things I actually
-use day to day.
+My personal portfolio and hobby-tools site
 
 ## Features
 
 ### Portfolio homepage
-Project showcase and tech-stack breakdown, both driven from config rather
-than hardcoded markup. The banner background rotates through a curated set
+Project showcase and tech-stack breakdown
+
+The banner background rotates through a curated set
 of images with support for pinned/scheduled entries and responsive art
 direction per breakpoint.
 
 ### Amateur radio logbook & map
-The feature I've spent the most time on. A queued job pulls my logbook from
-QRZ's XML API, parses the ADIF records, and enriches any Parks on the Air
-(POTA) activations by resolving park references against the POTA API —
-including a crosswalk for POTA's historical reference-numbering migrations,
-so old-format references from years-old QSOs still resolve correctly.
-Contacts are served as GeoJSON to a Vue + MapLibre GL map with:
-- Band and mode filtering, full-text search across station/location fields
-- Markers color-coded by band and shaped by mode (phone, digital, SSTV, etc.)
-- Newer contacts rendered larger and brighter than older ones
-- A curved path drawn from my QTH to a selected contact, antimeridian-aware
-  so it doesn't cut a straight line across the whole map for DX contacts
-- A legend that stays in sync with the actual marker colors
+Imports my latest radio logs from the QRZ API daily, parses the ADIF and fetches additional data via the parks on the air API
+
+Exposes an API endpoint that lets you query my logbook by radio band and mode, as well as search
+
+Also supports a GeoJSON endpoint that's used to render the map pins on the main logbook page for interesting visualization
 
 ### Photo gallery
-A lightweight Vue component pulling directly from my Flickr photostream.
+VueJS based gallery of some photos i've taken using the flickr API
 
 ### Phone number lookup ("Who's Calling Me?")
 A public reverse phone lookup tool backed by Twilio, with per-IP/user rate
@@ -40,19 +32,19 @@ served through a CDN with automatic cache purging on delete.
 
 ### Admin panel
 A small custom Livewire-based admin area (no external package) for managing
-homepage backgrounds and logbook visibility overrides, gated by an
-`is_admin` flag rather than a full roles/permissions system.
+the background image schedule and logbook data
+
+### Account panel
+Livewire forms for users to self-manage API keys and revoke them on-demand powered by Laravel Sanctum
 
 ### Ops
-[Laravel Pulse](https://laravel.com/docs/pulse) for basic performance/usage
-monitoring, restricted to admins.
+[Laravel Pulse](https://laravel.com/docs/pulse) for basic performance/usage monitoring
 
 ## Tech stack
-
 - **Backend:** Laravel 13, PHP 8.4, MySQL 8, Redis
 - **Frontend:** Blade + Tailwind CSS v4 + Vite, with Vue 3 "islands" for
   interactive pieces (the map, photo gallery, homepage showcase) and
-  Livewire 3 for the admin panel
+  Livewire 3 for the admin and account panels
 - **Maps:** MapLibre GL JS
 - **Local dev:** Docker via [Laravel Sail](https://laravel.com/docs/sail)
 - **External services:** QRZ (logbook import), Parks on the Air (POTA park
@@ -77,36 +69,30 @@ step after that runs inside the container. If you don't have PHP/Composer on
 your host, run that first step in a one-off container instead, e.g.
 `docker run --rm -v "$(pwd):/var/www/html" -w /var/www/html laravelsail/php84-composer:latest composer install`.)
 
-The app runs at `http://localhost:8090` by default (see `.env` for the full
-set of non-default ports this project uses, so it can run alongside other
-projects on the same machine).
+The app runs at `http://localhost` by default
 
 ```bash
-./vendor/bin/sail artisan test    # PHPUnit suite (Unit + Feature)
-./vendor/bin/sail npm run dev     # Vite dev server with HMR
+./vendor/bin/sail artisan test    # PHPUnit TEST suite (Unit + Feature)
+./vendor/bin/sail npm run dev     # Vite dev server with hot-reload
 ```
 
-## Application configuration
+### Frontend bundles
 
-The app uses Laravel's modern application structure:
+Vue keeps its template compiler because the root adopts Blade-rendered markup.
+The showcase, photo gallery, and radio map load on demand; MapLibre's JS, CSS,
+and worker are only requested by the radio island. Loading and reload-on-error
+messages cover deferred component requests. The radio chunk can still exceed
+Vite's 500 kB advisory limit; it is not needed on other pages.
 
-- `bootstrap/app.php` configures routing, middleware, and Sentry exception
-  reporting. Laravel supplies the standard middleware, including Laravel 13's
-  origin-aware request-forgery protection with CSRF-token fallback.
-- `bootstrap/providers.php` registers application providers. `AppServiceProvider`
-  owns policies, gates, production HTTPS URL generation, and production-only
-  Sentry provider registration.
-- `routes/console.php` defines console routes and the daily `logbook:import`
-  schedule. The server still needs to run Laravel's scheduler.
-- `config/trustedproxy.php` retains the optional `TRUSTED_PROXIES` environment
-  setting using Laravel's built-in proxy middleware. Leave it unset for direct
-  Nginx/PHP-FPM hosting; only configure verified upstream proxy addresses or
-  CIDRs, not `*`.
+Font Awesome uses a small SVG icon registry in `resources/js/icons.js`, with
+DOM watching for Vue/Livewire updates and support for legacy aliases and icon
+stacks. Add icons there when changing Blade or config-driven project icons.
+Unused Vuetify/MDI imports are not part of the active bundle; dependencies and
+legacy Sass files remain available. Banner image URLs, including the emergency
+fallback, come from `HomeBanner` via `asset()` rather than Vite CSS resolution.
 
-For the first deployment of this structure, run `php artisan config:clear` on
-the old release before replacing its files: an old configuration cache can
-still reference the removed providers. After deployment, run
-`php artisan optimize` to rebuild configuration, route, event, and view caches,
-and `php artisan queue:restart` to reload long-running queue workers. Use the
-site's PHP version. Legacy application kernels, exception handler, and
-routing/auth/event providers have been removed.
+```bash
+./vendor/bin/sail npm run build          # generate manifest for bundle checks
+./vendor/bin/sail npm run test:frontend  # icon, island, and built manifest checks
+./vendor/bin/sail npm run test:qso-map   # radio map lifecycle and behavior
+```

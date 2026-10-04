@@ -12,7 +12,7 @@
 </template>
 
 <script>
-import axios from 'axios';
+import axios from '../bootstrap';
 import PhotoComponent from "./PhotoComponent.vue";
 
 export default {

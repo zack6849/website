@@ -5,8 +5,8 @@ return [
         'personal' => [
             [
                 'name' => 'GoBNB',
-                'description' => 'A toy project that imports and displays data from insideairbnb',
-                'tech' => ['Go', 'Gin', 'GORM', 'PostgreSQL', 'PostGIS'],
+                'description' => 'A toy project that imports and displays data from insideairbnb, supports server-side reverse-geocoding via geoapify, and finds listings by city, uses geohashes to bucket listings by city and pre-seeds the cities list on import, React SPA frontend',
+                'tech' => ['Go', 'GORM', 'PostgreSQL', 'PostGIS', 'React'],
                 'status' => 'WIP',
                 'tone' => 'go',
                 'icon' => [

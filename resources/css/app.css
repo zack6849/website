@@ -84,7 +84,7 @@ div#content{
 }
 
 .top-banner-surface {
-    --top-banner-bg-url: url('/img/bg/pier_night.jpg');
+    --top-banner-bg-url: none;
     --top-banner-bg-url-sm: var(--top-banner-bg-url);
     --top-banner-bg-url-lg: var(--top-banner-bg-url-sm);
     --top-banner-bg-x: 50%;
@@ -341,7 +341,7 @@ div#content{
     }
 
     .top-banner-profile {
-        flex: 1 1 0%;
+        flex: 1 1 0;
     }
 
     .top-banner-avatar-image {
@@ -449,7 +449,7 @@ div#content{
 }
 
 .top-banner-preview-lg .top-banner-profile {
-    flex: 1 1 0%;
+    flex: 1 1 0;
     flex-direction: row;
     align-items: center;
     gap: 1.5rem;

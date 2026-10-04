@@ -1,27 +1,14 @@
 import { createApp } from "vue/dist/vue.esm-bundler";
-import { createVuetify } from 'vuetify';
-import * as components from 'vuetify/components';
-import * as directives from 'vuetify/directives';
-import '@mdi/font/css/materialdesignicons.css';
+import { createIsland } from './support/islands.mjs';
 import App from "./components/App.vue";
-import photoGalleryComponent from './components/PhotoGalleryComponent.vue';
-import QSOMapComponent from './components/QSOMapComponent.vue';
 import projectCardComponent from "./components/ProjectCardComponent.vue";
 import technologyComponent from "./components/TechnologyComponent.vue";
-import showcaseComponent from "./components/Showcase.vue";
 
-const vuetify = createVuetify({
-    icons: {
-        defaultSet: 'mdi',
-    },
-    components,
-    directives
-});
-
-const app = createApp(App).use(vuetify);
-app.component('photo-gallery', photoGalleryComponent);
+// App adopts the Blade markup as its template, so the Vue compiler is required.
+const app = createApp(App);
+app.component('photo-gallery', createIsland(() => import('./components/PhotoGalleryComponent.vue'), 'Photo gallery'));
 app.component('project-card', projectCardComponent);
 app.component('technology', technologyComponent);
-app.component('qso-map', QSOMapComponent);
-app.component('showcase', showcaseComponent);
+app.component('qso-map', createIsland(() => import('./components/QSOMapComponent.vue'), 'Radio map'));
+app.component('showcase', createIsland(() => import('./components/Showcase.vue'), 'Project showcase'));
 app.mount('#app');

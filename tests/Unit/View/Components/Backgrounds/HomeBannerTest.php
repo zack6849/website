@@ -81,6 +81,34 @@ class HomeBannerTest extends TestCase
         $this->assertSame('top-banner-frame top-banner-frame-preview top-banner-preview-lg', $banner->frameClasses);
     }
 
+    #[Test]
+    public function missingBackgroundEmitsTheAssetResolvedFallbackAtEveryBreakpoint(): void
+    {
+        $banner = $this->makeBanner([]);
+        $url = asset('img/bg/pier_night.jpg');
+
+        $this->assertSame($url, $banner->baseVariant['url']);
+        $this->assertSame($url, $banner->smVariant['url']);
+        $this->assertSame($url, $banner->lgVariant['url']);
+        $html = preg_replace('/\s+/', ' ', (string) $this->blade('<x-backgrounds.home-banner />'));
+
+        foreach (['', '-sm', '-lg'] as $breakpoint) {
+            $this->assertStringContainsString("--top-banner-bg-url{$breakpoint}: url('{$url}')", $html);
+        }
+    }
+
+    #[Test]
+    public function emptyPreviewExplicitlyDisablesTheImageInsteadOfShowingTheFallback(): void
+    {
+        $html = preg_replace('/\s+/', ' ', (string) $this->blade(
+            '<x-backgrounds.home-banner :background="[\'url\' => \'\']" :full-bleed="false" />',
+        ));
+
+        foreach (['', '-sm', '-lg'] as $breakpoint) {
+            $this->assertStringContainsString("--top-banner-bg-url{$breakpoint}: none", $html);
+        }
+    }
+
     /**
      * @param  array<string, mixed>  $background
      */
