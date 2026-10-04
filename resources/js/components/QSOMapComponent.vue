@@ -194,10 +194,14 @@
 </template>
 
 <script>
-import {Map, Popup} from 'maplibre-gl';
+import {Map, Popup, setWorkerUrl} from 'maplibre-gl';
+import 'maplibre-gl/dist/maplibre-gl.css';
+import maplibreWorkerUrl from 'maplibre-gl/dist/maplibre-gl-worker.mjs?worker&url';
 import {isMapboxURL, transformMapboxUrl} from 'maplibregl-mapbox-request-transformer'
 import {escape} from 'lodash';
 import RelativeUTCTime from '../support/RelativeUTCTime';
+
+setWorkerUrl(maplibreWorkerUrl);
 
 const EMPTY_FEATURE_COLLECTION = {
     type: 'FeatureCollection',
@@ -246,6 +250,9 @@ const MODE_LEGEND_ITEMS = [
 ];
 const QTH_ICON_URL = '/img/radio-icons/qth-antenna.svg';
 const ARC_POINT_COUNT = 48;
+const GLOBE_ROTATION_IDLE_MS = 5000;
+const GLOBE_ROTATION_MAX_ZOOM = 2.5;
+const GLOBE_ROTATION_DEGREES_PER_SECOND = 2;
 
 export default {
     name: 'QSOMapComponent',
@@ -277,20 +284,61 @@ export default {
             loadRequestId: 0,
             selectionAnimationId: 0,
             selectionAnimationTimers: [],
+            globeRotationFrame: null,
+            globeRotationLastFrame: null,
+            globeRotationLastInteraction: -GLOBE_ROTATION_IDLE_MS,
+            reducedMotionQuery: null,
         }
     },
     mounted() {
+        this.reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
+        for (const event of ['pointerdown', 'wheel', 'keydown']) {
+            this.$el.addEventListener(event, this.pauseGlobeRotation, {capture: true, passive: true});
+        }
         this.initMap();
         this.fetchBands();
         this.fetchModes();
     },
     beforeUnmount() {
+        cancelAnimationFrame(this.globeRotationFrame);
+        for (const event of ['pointerdown', 'wheel', 'keydown']) {
+            this.$el.removeEventListener(event, this.pauseGlobeRotation, true);
+        }
         clearTimeout(this.searchTimeout);
         this.clearSelectionAnimation();
         this.activePopup?.remove();
         this.mapObject?.remove();
     },
     methods: {
+        pauseGlobeRotation() {
+            this.globeRotationLastInteraction = performance.now();
+        },
+        rotateIdleGlobe(timestamp) {
+            const elapsed = this.globeRotationLastFrame === null
+                ? 0
+                : Math.min(timestamp - this.globeRotationLastFrame, 100);
+            this.globeRotationLastFrame = timestamp;
+            const map = this.mapObject;
+
+            if (
+                this.loaded
+                && map
+                && this.selectedContactId === null
+                && map.getZoom() <= GLOBE_ROTATION_MAX_ZOOM
+                && !map.isMoving()
+                && !document.hidden
+                && !this.reducedMotionQuery?.matches
+                && timestamp - this.globeRotationLastInteraction >= GLOBE_ROTATION_IDLE_MS
+            ) {
+                const center = map.getCenter();
+                const longitude = center.lng + GLOBE_ROTATION_DEGREES_PER_SECOND * elapsed / 1000;
+                map.jumpTo({
+                    center: [((longitude + 180) % 360 + 360) % 360 - 180, center.lat],
+                });
+            }
+
+            this.globeRotationFrame = requestAnimationFrame(this.rotateIdleGlobe);
+        },
         initMap() {
             const transformRequest = (url, resourceType) => {
                 if (isMapboxURL(url)) {
@@ -302,7 +350,6 @@ export default {
 
             this.mapObject = new Map({
                 container: 'map',
-                style: `mapbox://styles/mapbox/outdoors-v12`,
                 center: [this.config.lng, this.config.lat],
                 zoom: this.config.zoom,
                 transformRequest,
@@ -310,12 +357,27 @@ export default {
             this.mapObject.on('load', () => {
                 this.loaded = true;
                 this.onMapLoad(this.mapObject)
+                this.globeRotationFrame = requestAnimationFrame(this.rotateIdleGlobe);
             });
             this.mapObject.on('error', (event) => {
                 console.error(event.error ?? event);
             });
             this.mapObject.on('styleimagemissing', (event) => {
                 this.registerMissingStyleImage(this.mapObject, event.id);
+            });
+            this.mapObject.setStyle('mapbox://styles/mapbox/outdoors-v12', {
+                transformStyle: (_previousStyle, nextStyle) => ({
+                    ...nextStyle,
+                    projection: {type: 'globe'},
+                    sky: {
+                        'sky-color': 'transparent',
+                        'horizon-color': 'transparent',
+                        'fog-color': 'transparent',
+                        'fog-ground-blend': 0,
+                        'horizon-fog-blend': 0,
+                        'atmosphere-blend': 0.8,
+                    },
+                }),
             });
         },
         loadQsos() {
@@ -661,6 +723,7 @@ export default {
             });
         },
         selectContact(feature, options = {}) {
+            this.pauseGlobeRotation();
             this.selectedContactId = this.contactId(feature);
             this.updateMapHighlight();
             this.updateSelectedQsoPath(feature);
@@ -691,6 +754,7 @@ export default {
             }
 
             this.selectedContactId = null;
+            this.pauseGlobeRotation();
             this.clearSelectionAnimation();
             this.activePopup?.remove();
             this.updateSelectedQsoPath();
@@ -745,7 +809,7 @@ export default {
                 return [start, end];
             }
 
-            const curve = Math.min(Math.max(distance * 0.22, 1.25), 16);
+            const curve = Math.min(distance * 0.22, 16);
             let normalLng = -dy / distance;
             let normalLat = dx / distance;
 
@@ -1191,7 +1255,14 @@ export default {
 
 <style>
 #map {
-    min-height: 68vh;
+    height: 68vh;
+    background-color: #030712;
+    background-image:
+        radial-gradient(circle at 17px 23px, rgba(255, 255, 255, 0.85) 0.8px, transparent 1.5px),
+        radial-gradient(circle at 67px 83px, rgba(191, 219, 254, 0.65) 1px, transparent 1.7px),
+        radial-gradient(circle at 113px 47px, rgba(255, 255, 255, 0.45) 0.6px, transparent 1.2px),
+        radial-gradient(ellipse at 70% 20%, #172554 0%, transparent 65%);
+    background-size: 173px 191px, 263px 277px, 337px 311px, 100% 100%;
 }
 
 .qso-table-scroll {
@@ -1229,7 +1300,7 @@ export default {
 
 @media (max-width: 1279px) {
     #map {
-        min-height: 58vh;
+        height: 58vh;
     }
 
     .qso-table-scroll {

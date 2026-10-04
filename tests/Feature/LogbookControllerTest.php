@@ -34,7 +34,7 @@ class LogbookControllerTest extends TestCase
         $response->assertViewHas('mapConfig', [
             'lat' => 12.3456,
             'lng' => -65.4321,
-            'zoom' => 4,
+            'zoom' => 2.5,
         ]);
         $response->assertViewHas('qth', [
             'lat' => 12.3456,

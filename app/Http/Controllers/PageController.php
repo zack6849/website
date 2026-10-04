@@ -49,7 +49,7 @@ class PageController extends Controller
         ];
 
         return view('pages.radio-contact-map', [
-            'mapConfig' => array_merge($radioOrigin, ['zoom' => 4]),
+            'mapConfig' => array_merge($radioOrigin, ['zoom' => 2.5]),
             'qth' => array_merge($radioOrigin, ['label' => 'Approx. QTH']),
         ]);
     }
