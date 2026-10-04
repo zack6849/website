@@ -1,9 +1,10 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Files;
 
 use App\Exceptions\FileCannotBeDeletedException;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\UploadFileRequest;
 use App\Http\Resources\UploadedFileResource;
 use App\Http\Traits\SendsStatusResponses;
@@ -62,6 +63,7 @@ class FileController extends Controller
 
     /**
      * Store a newly created resource in storage.
+     * @throws Throwable
      */
     public function store(UploadFileRequest $request)
     {

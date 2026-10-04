@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace Tests\Unit\Jobs;
 
-use App\Jobs\QRZLogbookImport;
+use App\Jobs\Logbook\QRZLogbookImport;
 use App\Models\Callsign;
 use App\Models\LogbookEntry;
 use App\Models\LogbookEntryVisibilityOverride;

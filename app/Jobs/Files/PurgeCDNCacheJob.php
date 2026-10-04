@@ -2,10 +2,11 @@
 
 declare(strict_types=1);
 
-namespace App\Jobs;
+namespace App\Jobs\Files;
 
 use App\Exceptions\CachePurgeFailureException;
 use App\Services\CDNService;
+use Carbon\CarbonInterface;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Foundation\Queue\Queueable;
 
@@ -15,7 +16,7 @@ class PurgeCDNCacheJob implements ShouldQueue
 
     public int $backoff = 5;
 
-    public function retryUntil(): \DateTime
+    public function retryUntil(): CarbonInterface
     {
         return now()->addMinutes(10);
     }

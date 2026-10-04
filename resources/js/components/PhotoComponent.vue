@@ -4,7 +4,7 @@
         <div>
             <img
                 @click="openFlickr"
-                class="h-auto max-h-[28rem] w-full cursor-pointer object-cover object-center"
+                class="h-auto max-h-112 w-full cursor-pointer object-cover object-center"
                 :src="info.url_m"
                 :alt="info.title"
                 loading="lazy"

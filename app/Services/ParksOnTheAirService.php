@@ -22,7 +22,7 @@ class ParksOnTheAirService extends ServiceProvider
      * same park under "US-3061" resolves. Translate the known ones instead of
      * hammering the API with references that can never succeed.
      */
-    private const LEGACY_PREFIX_ALIASES = [
+    private const array LEGACY_PREFIX_ALIASES = [
         'K' => 'US',
         'VE' => 'CA',
         'HI' => 'DO',
@@ -36,7 +36,7 @@ class ParksOnTheAirService extends ServiceProvider
      * number). Checked before LEGACY_PREFIX_ALIASES so these take priority.
      * Source: https://docs.pota.app/docs/changes/2024-03-20-united-states.html
      */
-    private const LEGACY_REFERENCE_ALIASES = [
+    private const array LEGACY_REFERENCE_ALIASES = [
         // American Samoa (AS)
         'K-0053' => 'AS-0001',
         'K-0130' => 'AS-0002',
@@ -178,7 +178,7 @@ class ParksOnTheAirService extends ServiceProvider
     ];
 
     // Basic courtesy spacing between live lookups against api.pota.app.
-    private const REQUEST_DELAY_MICROSECONDS = 150_000;
+    private const int REQUEST_DELAY_MICROSECONDS = 150_000;
 
     public function __construct(
         private readonly PotaUnresolvedReferenceCache $unresolvedCache = new PotaUnresolvedReferenceCache(),

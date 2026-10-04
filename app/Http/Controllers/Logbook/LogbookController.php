@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\Logbook;
 
+use App\Http\Controllers\Controller;
 use App\Services\Logbook\LogbookGeoJsonService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Collection;

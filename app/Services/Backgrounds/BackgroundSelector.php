@@ -11,8 +11,8 @@ use Illuminate\Support\Facades\Schema;
 
 class BackgroundSelector
 {
-    private const FALLBACK_KEY = 'pier_night';
-    private const FALLBACK_BACKGROUND = [
+    private const string FALLBACK_KEY = 'pier_night';
+    private const array FALLBACK_BACKGROUND = [
         'title' => 'St. Petersburg Pier',
         'image' => BackgroundNormalizer::DEFAULT_IMAGE,
         'description' => 'Night shot of the St. Petersburg Pier.',

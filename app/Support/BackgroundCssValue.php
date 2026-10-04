@@ -6,8 +6,8 @@ namespace App\Support;
 
 final class BackgroundCssValue
 {
-    private const POSITION_TOKEN_PATTERN = '/\A(?:0|-?(?:\d+|\d*\.\d+)(?:%|px|rem|em|vh|vw)|left|right|top|bottom|center)\z/i';
-    private const SIZE_TOKEN_PATTERN = '(?:0|(?:\d+|\d*\.\d+)(?:%|px|rem|em|vh|vw)|auto)';
+    private const string POSITION_TOKEN_PATTERN = '/\A(?:0|-?(?:\d+|\d*\.\d+)(?:%|px|rem|em|vh|vw)|left|right|top|bottom|center)\z/i';
+    private const string SIZE_TOKEN_PATTERN = '(?:0|(?:\d+|\d*\.\d+)(?:%|px|rem|em|vh|vw)|auto)';
 
     public static function isPositionToken(mixed $value): bool
     {

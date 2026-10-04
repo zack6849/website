@@ -6,12 +6,14 @@ namespace App\Services;
 
 use App\Exceptions\InvalidCDNCacheConfigurationException;
 use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\Factory;
+use Illuminate\Http\Client\PendingRequest;
 use Illuminate\Support\Facades\Http;
 
 class CDNService
 {
-    private const BASE_URL = 'https://api.digitalocean.com/';
-    private $client;
+    private const string BASE_URL = 'https://api.digitalocean.com/';
+    private Factory|PendingRequest $client;
 
     public function __construct(?string $token = null)
     {

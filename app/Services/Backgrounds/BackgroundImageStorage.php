@@ -14,11 +14,11 @@ use RuntimeException;
 
 class BackgroundImageStorage
 {
-    private const DISK = 'public';
-    private const DIRECTORY = 'backgrounds';
-    private const PUBLIC_PREFIX = 'storage';
-    private const ALLOWED_EXTENSIONS = 'jpg,jpeg,png,gif,webp';
-    private const MAX_KILOBYTES = 8192;
+    private const string DISK = 'public';
+    private const string DIRECTORY = 'backgrounds';
+    private const string PUBLIC_PREFIX = 'storage';
+    private const string ALLOWED_EXTENSIONS = 'jpg,jpeg,png,gif,webp';
+    private const int MAX_KILOBYTES = 8192;
 
     /**
      * @return array<int, string>

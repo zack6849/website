@@ -15,13 +15,8 @@ class BackgroundScheduleMatcher
             return false;
         }
 
-        foreach ($rules as $rule) {
-            if (is_array($rule) && $this->ruleMatches($rule, $date)) {
-                return true;
-            }
-        }
+        return array_any($rules, fn($rule) => is_array($rule) && $this->ruleMatches($rule, $date));
 
-        return false;
     }
 
     private function ruleMatches(array $rule, Carbon $date): bool

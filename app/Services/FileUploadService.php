@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\FileCannotBeDeletedException;
-use App\Jobs\PurgeCDNCacheJob;
+use App\Jobs\Files\PurgeCDNCacheJob;
 use App\Models\File;
 use App\Models\User;
 use Illuminate\Contracts\Filesystem\Filesystem;
@@ -37,6 +37,9 @@ class FileUploadService
             ]) . "." . $extension;
     }
 
+    /**
+     * @throws Throwable
+     */
     public function storeUploadedFile(UploadedFile $file, User $user): File
     {
         $storagePath = config('upload.storage.path');

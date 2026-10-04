@@ -12,7 +12,7 @@ class UploadFileRequest extends FormRequest
      *
      * @return bool
      */
-    public function authorize()
+    public function authorize(): bool
     {
         //sure, why not.
         return true;
@@ -23,7 +23,7 @@ class UploadFileRequest extends FormRequest
      *
      * @return array
      */
-    public function rules()
+    public function rules(): array
     {
         return [
             'file' => [

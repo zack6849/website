@@ -14,13 +14,13 @@ use Closure;
  */
 class MainheadGridResolutionService
 {
-    private const MAX_LAT = 90;
-    private const MIN_LAT = -90;
-    private const MAX_LON = 180;
-    private const MIN_LON = -180;
+    private const int MAX_LAT = 90;
+    private const int MIN_LAT = -90;
+    private const int MAX_LON = 180;
+    private const int MIN_LON = -180;
 
-    private const LAT_DISTANCE = self::MAX_LAT - self::MIN_LAT;
-    private const LON_DISTANCE = self::MAX_LON - self::MIN_LON;
+    private const int LAT_DISTANCE = self::MAX_LAT - self::MIN_LAT;
+    private const int LON_DISTANCE = self::MAX_LON - self::MIN_LON;
 
     private function subdivisor(): Closure
     {

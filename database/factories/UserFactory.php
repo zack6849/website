@@ -44,4 +44,13 @@ class UserFactory extends Factory
             ];
         });
     }
+
+    public function withTokens(int $count = 3): UserFactory
+    {
+        return $this->afterCreating(function(User $model) use ($count){
+            for($i = 0; $i < $count; $i++){
+                $model->createToken($this->faker->text(25));
+            }
+        });
+    }
 }

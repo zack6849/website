@@ -7,7 +7,7 @@
         <header class="bg-white">
             <div class="{{ $maxwidth ?? 'max-w-7xl' }} mx-auto mb-0 pt-3 px-4 sm:px-6 lg:px-8">
                 <div class="flex">
-                    <div class="flex-grow">
+                    <div class="grow">
                         <h1 class="text-3xl font-bold leading-tight text-gray-900 mb-0">
                             {{$header ?? $title}}
                         </h1>

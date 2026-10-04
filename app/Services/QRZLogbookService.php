@@ -5,9 +5,12 @@ declare(strict_types=1);
 namespace App\Services;
 
 use App\Exceptions\QRZAPIException;
+use Illuminate\Http\Client\ConnectionException;
+use Illuminate\Http\Client\RequestException;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Http;
 use Illuminate\Support\ServiceProvider;
+use j4nr6n\ADIF\Exception\ParseException;
 use j4nr6n\ADIF\Parser;
 
 class QRZLogbookService
@@ -22,7 +25,13 @@ class QRZLogbookService
         $this->token = config('services.qrz.key');
     }
 
-    public function getLogbookEntries()
+    /**
+     * @throws QRZAPIException
+     * @throws ConnectionException
+     * @throws RequestException
+     * @throws ParseException
+     */
+    public function getLogbookEntries(): array
     {
         $response = Http::asForm()->timeout(15)->connectTimeout(5)->post($this->baseUrl . '/api', [
             'KEY' => $this->token,
@@ -40,13 +49,14 @@ class QRZLogbookService
             );
         }
         $adifData = str_replace('{AMP}', '&', $data['ADIF']);
-        return (new Parser())->parse($adifData);
+        return new Parser()->parse($adifData);
     }
 
-    public function parseLogbookEntries($adifString){
+    public function parseLogbookEntries($adifString): array
+    {
         $data = $this->parseResponseBody($adifString);
         $adifData = str_replace('{AMP}', '&', $data['ADIF']);
-        return (new Parser())->parse($adifData);
+        return new Parser()->parse($adifData);
     }
 
     private function parseResponseBody(string $responseBody): array

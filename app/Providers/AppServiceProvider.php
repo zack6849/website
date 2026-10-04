@@ -22,7 +22,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function register()
+    public function register(): void
     {
         if ($this->app->environment('production')) {
             $this->app->register(SentryServiceProvider::class);
@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(): void
     {
         Livewire::addPersistentMiddleware(EnsureUserIsAdmin::class);
 

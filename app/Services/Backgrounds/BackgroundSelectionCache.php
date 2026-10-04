@@ -8,10 +8,10 @@ use Illuminate\Support\Facades\Cache;
 
 class BackgroundSelectionCache
 {
-    private const CACHE_KEY = 'home-background';
-    private const CACHE_TTL_SECONDS = 3600;
-    private const CACHE_MISS = '__background_selection_cache_miss__';
-    private const NULL_SELECTION = '__background_selection_cache_null__';
+    private const string CACHE_KEY = 'home-background';
+    private const int CACHE_TTL_SECONDS = 3600;
+    private const string CACHE_MISS = '__background_selection_cache_miss__';
+    private const string NULL_SELECTION = '__background_selection_cache_null__';
 
     public function remember(callable $resolver): mixed
     {

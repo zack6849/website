@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Jobs;
+namespace App\Jobs\Logbook;
 
 use App\Models\Callsign;
 use App\Models\LogbookEntry;
 use App\Models\LogbookEntryVisibilityOverride;
 use App\Models\POTAPark;
-use App\Services\LogbookEntryIdentity;
 use App\Services\Logbook\LogbookCache;
+use App\Services\LogbookEntryIdentity;
 use App\Services\ParksOnTheAirService;
 use App\Services\QRZLogbookService;
 use Illuminate\Bus\Queueable;

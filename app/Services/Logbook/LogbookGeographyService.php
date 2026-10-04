@@ -6,8 +6,8 @@ namespace App\Services\Logbook;
 
 class LogbookGeographyService
 {
-    private const EARTH_RADIUS_MILES = 3958.8;
-    private const CARDINAL_DIRECTIONS = [
+    private const float EARTH_RADIUS_MILES = 3958.8;
+    private const array CARDINAL_DIRECTIONS = [
         'N',
         'NNE',
         'NE',
