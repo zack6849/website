@@ -73,8 +73,8 @@ return [
                 'links' => [],
             ],
             [
-                'name' => 'Monitoring and Alerting Platform',
-                'description' => 'I built a standalone monitoring product as the sole engineer. It synchronized sensor, location, and account data from several systems, detected missing or stalled devices and unusual usage, and delivered dashboards, configurable alerts, daily reports, and third-party uploads.',
+                'name' => 'Utility Consumption Monitoring and Alerting Platform',
+                'description' => 'I built a standalone utilities monitoring product as the sole engineer. It synchronized sensor, location, and account data from several systems, detected missing or stalled devices and unusual usage, and delivered dashboards, configurable alerts, daily reports, and third-party integrations with property management software.',
                 'tech' => ['Laravel', 'Livewire', 'PHP', 'MySQL', 'Scheduled Jobs', 'REST APIs'],
                 'tone' => 'monitoring',
                 'icon' => [
@@ -85,8 +85,8 @@ return [
                 'links' => [],
             ],
             [
-                'name' => 'Customer Operations and Reporting Portal',
-                'description' => 'Built the customer-facing side of a new operations portal from a rough product sketch, working directly with stakeholders to figure out what they actually needed. It included account management, approval workflows, reports, charts, exports, and integrations with third-party business systems.',
+                'name' => 'Unified Billing Expense Management Portal',
+                'description' => 'Built the customer-facing side of a new billing expense management portal from a rough product sketch, working directly with stakeholders to figure out what they actually needed. It included account management, approval workflows, reports, charts, exports, and integrations with third-party business systems.',
                 'tech' => ['Laravel', 'Livewire', 'Vue.js', 'PHP', 'MySQL', 'REST APIs'],
                 'tone' => 'reporting',
                 'icon' => [
